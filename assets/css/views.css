@@ -81,6 +81,26 @@
 .help-item, .sticky-help p { font-size: 13px; line-height: 1.7; }
 .analysis-row-meta small { font-size: 10px; }
 
+/* Vocabulary table layout: enlarged copy must wrap inside its own column. */
+.data-table-wrap:has(.vocab-table) { overflow-x: auto; overflow-y: visible; }
+.data-table.vocab-table { table-layout: fixed; white-space: normal; min-width: 1160px; }
+.vocab-table th, .vocab-table td { vertical-align: top; }
+.vocab-table th:nth-child(1), .vocab-table td:nth-child(1) { width: 145px; }
+.vocab-table th:nth-child(2), .vocab-table td:nth-child(2) { width: 245px; }
+.vocab-table th:nth-child(3), .vocab-table td:nth-child(3) { width: 430px; }
+.vocab-table th:nth-child(4), .vocab-table td:nth-child(4) { width: 75px; }
+.vocab-table th:nth-child(5), .vocab-table td:nth-child(5) { width: 120px; }
+.vocab-table th:nth-child(6), .vocab-table td:nth-child(6) { width: 105px; }
+.vocab-table th:nth-child(7), .vocab-table td:nth-child(7) { width: 120px; }
+.vocab-table td { overflow-wrap: anywhere; }
+.vocab-table .vocab-word, .vocab-table .vocab-context, .vocab-table .vocab-example-preview { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.vocab-table .vocab-context { display: block; max-width: none; }
+.vocab-table .vocab-example-preview { width: 100%; }
+.vocab-table .vocab-example-preview b, .vocab-table .vocab-example-preview small { display: block; overflow-wrap: anywhere; word-break: break-word; }
+.vocab-table .vocab-open-link { display: block; max-width: 100%; white-space: normal; text-align: left; line-height: 1.5; }
+.vocab-table .mastery-bar { min-width: 100px; }
+.vocab-table .mastery-bar .progress-track { flex: 1 1 auto; min-width: 45px; }
+
 @media (max-width: 700px) {
   .toolbar::before { margin-bottom: 2px; }
   .toolbar > div:last-child { width: 100%; flex-wrap: wrap; }
