@@ -151,7 +151,11 @@ export async function limitPublicRequest(request, env, scope, { burstLimit = 10,
 async function reserveDailyUsage(env, userId, feature, requestId) {
   const profile = await getProfile(env, userId);
   const defaultLimit = Math.max(1, Math.min(500, Number(env?.DEFAULT_DAILY_AI_LIMIT) || 20));
-  const limit = Math.max(1, Math.min(500, Number(profile?.daily_ai_limit) || defaultLimit));
+  // An operator override lets production raise a legacy profile's old limit
+  // without requiring a manual database edit for every existing account.
+  const operatorLimit = Number(env?.AI_DAILY_LIMIT_OVERRIDE) || 0;
+  const profileLimit = Number(profile?.daily_ai_limit) || defaultLimit;
+  const limit = Math.max(1, Math.min(500, operatorLimit || profileLimit));
   const response = await supabaseFetch(env, '/rest/v1/rpc/reserve_ai_request', {
     method: 'POST',
     body: { p_user_id: userId, p_feature: feature, p_request_id: requestId, p_daily_limit: limit },
