@@ -1442,7 +1442,7 @@ async function applyAuthenticatedUser(authUser) {
       username: account.user.username || data.user.username,
       name: account.user.display_name || data.user.name,
       role: account.user.role || 'user',
-      aiUsage: account.usage ? { ...account.usage, limit: account.user.daily_ai_limit || ui.publicConfig?.dailyAiLimit || 20 } : null,
+      aiUsage: account.usage ? { ...account.usage, limit: ui.publicConfig?.dailyAiLimit || account.user.daily_ai_limit || 20 } : null,
     };
     saveData(data);
   }
@@ -1453,7 +1453,7 @@ async function refreshAccountUsage() {
   const account = await fetchAccount().catch(() => null);
   if (!account?.user) return;
   data.user.role = account.user.role || data.user.role || 'user';
-  data.user.aiUsage = account.usage ? { ...account.usage, limit: account.user.daily_ai_limit || ui.publicConfig?.dailyAiLimit || 20 } : null;
+  data.user.aiUsage = account.usage ? { ...account.usage, limit: ui.publicConfig?.dailyAiLimit || account.user.daily_ai_limit || 20 } : null;
   saveData(data);
   if (!['login', 'signup', 'landing'].includes(currentRoute())) render();
 }

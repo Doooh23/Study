@@ -24,11 +24,12 @@ export function platformConfigured(env) {
 export function publicPlatformConfig(env) {
   const url = envText(env, 'SUPABASE_URL', 500).replace(/\/$/, '');
   const anonKey = envText(env, 'SUPABASE_ANON_KEY', 3000);
+  const operatorLimit = Number(env?.AI_DAILY_LIMIT_OVERRIDE) || 0;
   return {
     authConfigured: Boolean(url && anonKey),
     supabaseUrl: url,
     supabaseAnonKey: anonKey,
-    dailyAiLimit: Math.max(1, Math.min(500, Number(env?.DEFAULT_DAILY_AI_LIMIT) || 20)),
+    dailyAiLimit: Math.max(1, Math.min(500, operatorLimit || Number(env?.DEFAULT_DAILY_AI_LIMIT) || 20)),
     maxUploadMb: Math.max(1, Math.min(25, Number(env?.MAX_UPLOAD_MB) || 12)),
     operatorName: envText(env, 'PUBLIC_OPERATOR_NAME', 120) || '홍동원 Study',
     privacyEmail: envText(env, 'PUBLIC_PRIVACY_EMAIL', 180) || 'privacy@eon.study',
