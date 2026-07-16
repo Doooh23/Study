@@ -1,0 +1,35 @@
+{
+  "description": "Apply through Vercel Dashboard > Firewall or the Firewall REST API. Start bot protection in log mode before challenge mode.",
+  "rules": [
+    {
+      "name": "AI endpoints - IP burst protection",
+      "active": true,
+      "conditionGroup": [
+        {
+          "conditions": [
+            { "type": "path", "op": "re", "value": "^/api/(analyze-problem|evaluate-analysis|generate-problems|enrich-word|recognize-problem|create-report)$" },
+            { "type": "method", "op": "eq", "value": "POST" }
+          ]
+        }
+      ],
+      "action": {
+        "mitigate": {
+          "action": "rate_limit",
+          "rateLimit": { "algo": "fixed_window", "window": 60, "limit": 30, "keys": ["ip"], "action": "deny" }
+        }
+      }
+    },
+    {
+      "name": "Block common exploit scanners",
+      "active": true,
+      "conditionGroup": [
+        { "conditions": [{ "type": "path", "op": "re", "value": "^/(wp-admin|wp-login|\\.env|\\.git|phpmyadmin)(/|$)" }] }
+      ],
+      "action": { "mitigate": { "action": "deny", "actionDuration": "1h" } }
+    }
+  ],
+  "managedRules": {
+    "bot_protection": { "active": true, "action": "log_then_challenge" },
+    "ai_bots": { "active": true, "action": "deny" }
+  }
+}
