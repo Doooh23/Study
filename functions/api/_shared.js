@@ -123,6 +123,16 @@ export function cleanText(value, max = 5000) {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
 }
 
+// Vercel can return an intentionally empty encrypted variable as the literal
+// string `""`. Never treat that placeholder as an API key or model name.
+export function cleanEnvValue(...values) {
+  for (const value of values) {
+    const cleaned = cleanText(value, 4000);
+    if (cleaned && cleaned !== '""' && cleaned !== "''") return cleaned;
+  }
+  return '';
+}
+
 export function validateProblemRequest(body) {
   const count = Math.min(10, Math.max(1, Number(body?.problemCount) || 3));
   return {
@@ -143,17 +153,17 @@ export function validateProblemRequest(body) {
 }
 
 export function resolveModel(env, featureKey, fallbackModel = 'gpt-5.4-mini') {
-  const featureModel = cleanText(env?.[featureKey], 100);
-  const sharedModel = cleanText(env?.AI_MODEL, 100);
+  const featureModel = cleanEnvValue(env?.[featureKey])?.slice(0, 100);
+  const sharedModel = cleanEnvValue(env?.AI_MODEL)?.slice(0, 100);
   const selected = featureModel || (/^(?:openai\/)?gpt-5\.(?:4|5|6)(?:[-.]|$)/.test(sharedModel) ? sharedModel : fallbackModel);
-  const usesGateway = !cleanText(env?.AI_API_KEY || env?.OPENAI_API_KEY, 500)
-    && Boolean(cleanText(env?.AI_GATEWAY_API_KEY || env?.VERCEL_OIDC_TOKEN, 4000));
+  const usesGateway = !cleanEnvValue(env?.AI_API_KEY, env?.OPENAI_API_KEY)
+    && Boolean(cleanEnvValue(env?.AI_GATEWAY_API_KEY, env?.VERCEL_OIDC_TOKEN));
   return usesGateway && !selected.includes('/') ? `openai/${selected}` : selected;
 }
 
 export function hasAIKey(env) {
-  return Boolean(cleanText(env?.AI_API_KEY || env?.OPENAI_API_KEY, 500)
-    || cleanText(env?.AI_GATEWAY_API_KEY || env?.VERCEL_OIDC_TOKEN, 4000));
+  return Boolean(cleanEnvValue(env?.AI_API_KEY, env?.OPENAI_API_KEY)
+    || cleanEnvValue(env?.AI_GATEWAY_API_KEY, env?.VERCEL_OIDC_TOKEN));
 }
 
 export function reasoningOption(model, effort = 'low') {
@@ -308,8 +318,8 @@ export async function requestOpenAI({
   provider = '',
 }) {
   const startedAt = Date.now();
-  const directKey = cleanText(env?.AI_API_KEY || env?.OPENAI_API_KEY, 500);
-  const gatewayKey = cleanText(env?.AI_GATEWAY_API_KEY || env?.VERCEL_OIDC_TOKEN, 4000);
+  const directKey = cleanEnvValue(env?.AI_API_KEY, env?.OPENAI_API_KEY);
+  const gatewayKey = cleanEnvValue(env?.AI_GATEWAY_API_KEY, env?.VERCEL_OIDC_TOKEN);
   const selectedProvider = provider || (directKey ? 'direct' : 'gateway');
   const usesGateway = selectedProvider === 'gateway';
   const apiKey = usesGateway ? gatewayKey : directKey;
