@@ -42,6 +42,51 @@
 @media (max-width: 700px) { .welcome-row { display: block; }.date-pill { width: fit-content; margin-top: 14px; }.stat-grid { grid-template-columns: repeat(2, 1fr); }.stat-card { padding: 14px; }.dashboard-grid { grid-template-columns: 1fr; }.onboarding-card,.analysis-guide { grid-template-columns: 1fr; }.onboarding-steps,.analysis-guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.focus-meta { grid-template-columns: repeat(2, 1fr); }.focus-actions { align-items: flex-end; }.focus-progress { width: 100px; }.week-ring-wrap { align-items: flex-start; }.ring { width: 100px; height: 100px; }.ring::before { width: 76px; height: 76px; }.analysis-grid { grid-template-columns: 1fr; }.stepper-item { font-size: 0; }.stepper-item:not(:last-child)::after { width: 25px; }.tabs { width: 100%; }.tab { flex: 1; justify-content: center; padding: 0 8px; }.tab span { display: none; }.register-layout,.analysis-workspace,.generator-layout { grid-template-columns: 1fr; }.passage-panel { padding: 17px; }.english-passage,.exam-passage { font-size: 15px; }.feedback-hero { grid-template-columns: 1fr; text-align: center; }.score-tags { justify-content: center; }.feedback-grid { grid-template-columns: 1fr; }.compare-list { grid-template-columns: 1fr; }.radio-cards { grid-template-columns: 1fr; }.radio-card label { min-height: 46px; }.generator-select,.meaning-pair { grid-template-columns: 1fr; }.practice-top { gap: 14px; }.timer span { display: none; }.question-card { padding: 17px; }.question-toolbar { display: grid; }.question-tools { order: 2; }.question-tools .btn { flex: 1; padding: 0 9px; font-size: 10px; }.result-banner { grid-template-columns: 1fr; padding: 24px; }.result-score { text-align: left; }.result-metrics { grid-template-columns: repeat(2, 1fr); }.mastery-check { grid-template-columns: 1fr; }.result-item-body { padding-left: 18px; }.answer-compare { display: grid; }.insight-hero { grid-template-columns: auto 1fr; }.insight-hero .btn { grid-column: 1 / -1; }.insight-columns,.history-top { grid-template-columns: 1fr; }.analysis-row-meta { grid-template-columns: repeat(2, 1fr); gap: 9px; }.settings-layout { grid-template-columns: 1fr; }.settings-nav { display: flex; overflow-x: auto; }.settings-nav button { flex: 0 0 auto; width: auto; }.setting-row { align-items: flex-start; }.setting-row .control { width: 140px; }.data-table { min-width: 720px; }.exam-image-modal .modal-body { padding-inline: 10px; } }
 @media (max-width: 700px) { .ocr-file-card,.ocr-result-head { align-items: stretch; flex-direction: column; }.ocr-file-card .btn,.ocr-result-head .btn { width: 100%; }.upload-zone.has-image { min-height: 210px; } }
 @media (max-width: 700px) { .reference-analysis { grid-template-columns: 1fr; }.reference-analysis > div { grid-column: auto !important; } }
+
+/* Readability and discoverability improvements for dense study screens. */
+.toolbar { padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-tint); }
+.toolbar::before { content: '필터를 고르고 단어를 검색해 보세요'; flex: 1 0 100%; color: var(--text-2); font-size: 12px; font-weight: 700; }
+.filter-btn { min-height: 40px; font-size: 12px; }
+.search-box .control { min-height: 40px; font-size: 13px; }
+.data-table th { color: var(--text-2); font-size: 11px; }
+.data-table td { font-size: 13px; line-height: 1.6; }
+.data-table tr.vocab-row { cursor: pointer; transition: background .16s; }
+.data-table tr.vocab-row:hover { background: var(--surface-tint); }
+.vocab-word b { font-size: 17px; }
+.vocab-word small { display: block; margin-top: 3px; color: var(--text-2); font-size: 12px; }
+.vocab-context { max-width: 300px; font-size: 13px; }
+.vocab-example-preview { max-width: 430px; gap: 5px; white-space: normal; }
+.vocab-example-preview b { font-size: 14px; line-height: 1.65; }
+.vocab-example-preview small { font-size: 13px; line-height: 1.6; }
+.vocab-example-preview em { font-size: 11px; }
+.vocab-open-link { width: fit-content; padding: 4px 0; color: var(--primary); background: transparent; font-size: 12px; font-weight: 800; text-decoration: underline; cursor: pointer; }
+.vocab-open-link:hover { color: var(--primary-dark); }
+.vocab-sense-summary { gap: 6px; }
+.sense-chip { font-size: 11px; }
+.vocab-example-list { gap: 12px; }
+.vocab-example { grid-template-columns: 30px 1fr; gap: 12px; padding: 14px; }
+.vocab-example > span { width: 29px; height: 29px; font-size: 12px; }
+.vocab-example b { font-size: 15px; line-height: 1.7; }
+.vocab-example p { font-size: 13px; line-height: 1.65; }
+.vocab-example small { font-size: 12px; }
+.sense-card { grid-template-columns: 30px 1fr; padding: 13px 14px; }
+.sense-index { width: 28px; height: 28px; font-size: 11px; }
+.sense-card b { font-size: 14px; }
+.sense-card p { font-size: 13px; line-height: 1.65; }
+.sense-card small, .sense-card em { font-size: 12px; }
+.word-ai-pending { padding: 14px; }
+.word-ai-pending p { font-size: 13px; }
+.learning-tip p { font-size: 13px !important; }
+.exam-passage, .english-passage { line-height: 1.9; }
+.help-item, .sticky-help p { font-size: 13px; line-height: 1.7; }
+.analysis-row-meta small { font-size: 10px; }
+
+@media (max-width: 700px) {
+  .toolbar::before { margin-bottom: 2px; }
+  .toolbar > div:last-child { width: 100%; flex-wrap: wrap; }
+  .search-box { flex: 1 1 180px; }
+  .vocab-table { min-width: 1180px; }
+}
 .manual-confirmation { padding: 0; margin: 16px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-tint); }.manual-confirmation summary { display: flex; align-items: center; gap: 8px; padding: 13px 15px; color: var(--text-2); cursor: pointer; font-size: 11px; font-weight: 800; }.manual-confirmation[open] { padding-bottom: 15px; }.manual-confirmation[open] summary { margin-bottom: 4px; border-bottom: 1px solid var(--line); }.manual-confirmation > p,.manual-confirmation > .form-grid { margin-right: 15px; margin-left: 15px; }.manual-confirmation > p { margin-top: 12px; font-size: 10px; line-height: 1.6; }
 
 /* Production auth, policy, analysis reports and admin */
